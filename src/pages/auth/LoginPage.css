@@ -1,0 +1,208 @@
+
+* {
+  box-sizing: border-box;
+}
+
+.login-page {
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  color: #ffffff;
+  overflow: hidden;
+
+  /* Imagen de fondo */
+  background-image: url("../../../public/images/login-bg.png");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+/* Capa oscura semitransparente */
+.login-page::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(8, 14, 30, 0.62);
+  z-index: 0;
+}
+
+/* Barra superior */
+.login-header {
+  position: relative;
+  z-index: 1;
+  height: 82px;
+  padding: 0 6%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(10, 15, 28, 0.30);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(8px);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.brand-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  background: #f5c542;
+  color: #171717;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.login-navigation {
+  display: flex;
+  gap: 35px;
+}
+
+.login-navigation a {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 13px;
+  transition: color 0.2s;
+}
+
+.login-navigation a:hover {
+  color: #f5c542;
+}
+
+/* Contenido central */
+.login-content {
+  position: relative;
+  z-index: 1;
+  width: min(1150px, 90%);
+  margin: auto;
+  display: grid;
+  grid-template-columns: 1fr 430px;
+  align-items: center;
+  gap: 70px;
+  padding: 65px 0;
+}
+
+/* Panel informativo */
+.login-presentation {
+  max-width: 570px;
+}
+
+.presentation-tag {
+  display: inline-block;
+  color: #f5c542;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  margin-bottom: 22px;
+}
+
+.login-presentation h1 {
+  font-size: clamp(32px, 4vw, 51px);
+  line-height: 1.15;
+  margin: 0 0 22px;
+  font-weight: 800;
+}
+
+.login-presentation p {
+  max-width: 480px;
+  color: rgba(255, 255, 255, 0.78);
+  line-height: 1.8;
+  font-size: 15px;
+}
+
+.presentation-features {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  margin-top: 30px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Tarjeta de login: Glassmorphism */
+.login-card {
+  padding: 35px;
+  border-radius: 18px;
+
+  background: rgba(255, 255, 255, 0.13);
+
+  border: 1px solid rgba(255, 255, 255, 0.25);
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+}
+
+/* Footer */
+.login-page-footer {
+  position: relative;
+  z-index: 1;
+  min-height: 60px;
+  padding: 15px 6%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  background: rgba(10, 15, 28, 0.35);
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 11px;
+}
+
+/* Responsive */
+@media (max-width: 850px) {
+  .login-content {
+    grid-template-columns: 1fr;
+    gap: 35px;
+    max-width: 500px;
+    padding: 45px 0;
+  }
+
+  .login-presentation {
+    text-align: center;
+  }
+
+  .presentation-features {
+    align-items: center;
+  }
+
+  .login-card {
+    padding: 28px;
+  }
+}
+
+@media (max-width: 550px) {
+  .login-header {
+    height: 70px;
+  }
+
+  .login-navigation {
+    display: none;
+  }
+
+  .login-presentation h1 {
+    font-size: 32px;
+  }
+
+  .login-presentation p {
+    font-size: 13px;
+  }
+
+  .login-card {
+    padding: 24px 20px;
+  }
+
+  .login-page-footer {
+    flex-direction: column;
+    text-align: center;
+  }
+}
