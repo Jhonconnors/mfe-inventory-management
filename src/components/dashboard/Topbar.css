@@ -1,0 +1,91 @@
+
+.topbar {
+  height: 82px;
+  padding: 0 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #ffffff;
+  border-bottom: 1px solid #e8edf3;
+}
+
+.topbar-heading span {
+  font-size: 11px;
+  color: #8994a5;
+}
+
+.topbar-heading h2 {
+  margin: 5px 0 0;
+  font-size: 19px;
+  color: #172337;
+}
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+.notification-button {
+  position: relative;
+  border: none;
+  background: transparent;
+  color: #697586;
+  cursor: pointer;
+}
+
+.notification-button svg {
+  font-size: 23px;
+}
+
+.notification-dot {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  background: #f5c542;
+  border-radius: 50%;
+  top: 0;
+  right: 0;
+}
+
+.topbar-user {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #263448;
+}
+
+.topbar-user > svg:first-child {
+  font-size: 34px;
+  color: #9ba6b5;
+}
+
+.topbar-user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.topbar-user-info strong {
+  font-size: 12px;
+}
+
+.topbar-user-info span {
+  font-size: 10px;
+  color: #8994a5;
+}
+
+@media (max-width: 550px) {
+  .topbar {
+    padding: 0 15px;
+  }
+
+  .topbar-actions {
+    gap: 10px;
+  }
+
+  .topbar-user-info,
+  .topbar-user > svg:last-child {
+    display: none;
+  }
+}

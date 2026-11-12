@@ -9,19 +9,21 @@ import {
 
 import "./LoginForm.css";
 
-const LoginForm = () => {
-  const [email, setEmail] = useState("");
+const LoginForm = ({ onLogin }) => {
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    setError("");
 
-    // Aquí conectaremos posteriormente el servicio de autenticación.
-    console.log("Credenciales ingresadas:", {
-      email,
-      password
-    });
+    const result = onLogin(username, password);
+
+    if (!result.success) {
+      setError(result.message);
+    }
   };
 
   return (
@@ -37,14 +39,15 @@ const LoginForm = () => {
       </p>
 
       <div className="login-field">
-        <label htmlFor="email">Correo electrónico</label>
+        <label htmlFor="username">Usuario</label>
 
         <input
-          id="email"
-          type="email"
-          placeholder="usuario@empresa.com"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          id="username"
+          type="text"
+          placeholder="Ingresa tu usuario"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          autoComplete="username"
           required
         />
       </div>
@@ -59,6 +62,7 @@ const LoginForm = () => {
             placeholder="Ingresa tu contraseña"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            autoComplete="current-password"
             required
           />
 
@@ -66,23 +70,18 @@ const LoginForm = () => {
             type="button"
             className="password-toggle"
             onClick={() => setShowPassword(!showPassword)}
-            aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+            aria-label="Mostrar u ocultar contraseña"
           >
             {showPassword ? <VisibilityOff /> : <Visibility />}
           </button>
         </div>
       </div>
 
-      <div className="login-options">
-        <label className="remember-option">
-          <input type="checkbox" />
-          Recordarme
-        </label>
-
-        <a href="#forgot-password">
-          ¿Olvidaste tu contraseña?
-        </a>
-      </div>
+      {error && (
+        <div className="login-error">
+          {error}
+        </div>
+      )}
 
       <button type="submit" className="login-button">
         <span>Ingresar</span>
@@ -90,10 +89,7 @@ const LoginForm = () => {
       </button>
 
       <div className="login-footer">
-        <span>¿Problemas para acceder?</span>
-        <a href="mailto:soporte@empresa.com">
-          Contactar soporte
-        </a>
+        <span>Sistema de Gestión de Activos Tecnológicos</span>
       </div>
     </form>
   );
