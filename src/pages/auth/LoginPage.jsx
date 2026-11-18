@@ -2,7 +2,7 @@
 import LoginForm from "../../components/auth/LoginForm";
 import "./LoginPage.css";
 
-const LoginPage = ({ onLogin }) => {
+const LoginPage = ({ onLogin, notice }) => {
   return (
     <main className="login-page">
 
@@ -40,8 +40,7 @@ const LoginPage = ({ onLogin }) => {
         </div>
 
         <div className="login-card">
-          {/* IMPORTANTE: transmitir onLogin */}
-          <LoginForm onLogin={onLogin} />
+          <LoginForm onLogin={onLogin} notice={notice} />
         </div>
 
       </section>

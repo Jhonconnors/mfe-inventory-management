@@ -7,7 +7,7 @@ import DashboardContent from "../../components/dashboard/DashboardContent";
 
 import "./HomePage.css";
 
-const HomePage = ({ user, onLogout }) => {
+const HomePage = ({ user, onLogout, accessToken }) => {
   const [activeModule, setActiveModule] = useState("inicio");
   const [collapsed, setCollapsed] = useState(false);
 
@@ -34,6 +34,7 @@ const HomePage = ({ user, onLogout }) => {
           <DashboardContent
             activeModule={activeModule}
             user={user}
+            accessToken={accessToken}
           />
         </div>
 

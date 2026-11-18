@@ -9,20 +9,23 @@ import {
 
 import "./LoginForm.css";
 
-const LoginForm = ({ onLogin }) => {
-  const [username, setUsername] = useState("");
+const LoginForm = ({ onLogin, notice }) => {
+  const [correo, setCorreo] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     setError("");
+    setIsSubmitting(true);
 
-    const result = onLogin(username, password);
-
-    if (!result.success) {
-      setError(result.message);
+    try {
+      const result = await onLogin(correo, password);
+      if (!result.success) setError(result.message);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -39,14 +42,14 @@ const LoginForm = ({ onLogin }) => {
       </p>
 
       <div className="login-field">
-        <label htmlFor="username">Usuario</label>
+        <label htmlFor="correo">Correo</label>
 
         <input
-          id="username"
-          type="text"
-          placeholder="Ingresa tu usuario"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          id="correo"
+          type="email"
+          placeholder="Ingresa tu correo"
+          value={correo}
+          onChange={(e) => setCorreo(e.target.value)}
           autoComplete="username"
           required
         />
@@ -77,14 +80,14 @@ const LoginForm = ({ onLogin }) => {
         </div>
       </div>
 
-      {error && (
+      {(error || notice) && (
         <div className="login-error">
-          {error}
+          {error || notice}
         </div>
       )}
 
-      <button type="submit" className="login-button">
-        <span>Ingresar</span>
+      <button type="submit" className="login-button" disabled={isSubmitting}>
+        <span>{isSubmitting ? "Ingresando..." : "Ingresar"}</span>
         <LoginOutlined />
       </button>
 

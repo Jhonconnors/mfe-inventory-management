@@ -6,6 +6,7 @@ import {
   SwapHoriz,
   History,
   AdminPanelSettings,
+  LocationOn,
   DevicesOther,
   ChevronLeft,
   ChevronRight,
@@ -28,6 +29,12 @@ const menuItems = [
     permission: "all"
   },
   {
+    id: "ubicaciones",
+    label: "Ubicaciones",
+    icon: <LocationOn />,
+    permission: "all"
+  },
+  {
     id: "asignaciones",
     label: "Asignaciones",
     icon: <AssignmentInd />,
@@ -37,7 +44,7 @@ const menuItems = [
     id: "traslados",
     label: "Traslados",
     icon: <SwapHoriz />,
-    permission: "admin"
+    permission: "all"
   },
   {
     id: "auditoria",
@@ -49,7 +56,7 @@ const menuItems = [
     id: "usuarios",
     label: "Usuarios y roles",
     icon: <AdminPanelSettings />,
-    permission: "admin"
+    permission: "users"
   }
 ];
 
@@ -62,8 +69,9 @@ const Sidebar = ({
   setCollapsed
 }) => {
 
-  const visibleItems = menuItems.filter((item) =>
-    item.permission === "all" || user.role === "admin"
+  const canViewUsers = ["ADMINISTRADOR", "ENCARGADO_INVENTARIO"].includes(user.role);
+  const visibleItems = menuItems.filter(
+    (item) => item.permission !== "users" || canViewUsers
   );
 
   return (

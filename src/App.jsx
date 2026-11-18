@@ -2,63 +2,72 @@ import { useState } from "react";
 
 import LoginPage from "../src/pages/auth/LoginPage";
 import HomePage from "../src/pages/dashboard/HomePage";
+import { getCurrentUser, login, logout } from "./services/authentication";
 
 import "./App.css";
 
-const dummyUsers = [
-  {
-    username: "admin",
-    password: "admin",
-    role: "admin",
-    name: "Administrador"
-  },
-  {
-    username: "consulta",
-    password: "consulta",
-    role: "consulta",
-    name: "Usuario de consulta"
-  }
-];
-
 function App() {
-  const [user, setUser] = useState(null);
+  const [session, setSession] = useState(null);
+  const [logoutNotice, setLogoutNotice] = useState("");
 
-  const handleLogin = (username, password) => {
-    const foundUser = dummyUsers.find(
-      (item) =>
-        item.username === username &&
-        item.password === password
-    );
+  const handleLogin = async (correo, password) => {
+    try {
+      const tokens = await login(correo, password);
+      const profile = await getCurrentUser(tokens.access_token);
 
-    if (!foundUser) {
+      if (!profile.rol?.nombre) {
+        throw new Error("El backend no devolvió el rol del usuario.");
+      }
+
+      setSession({
+        accessToken: tokens.access_token,
+        refreshToken: tokens.refresh_token,
+        user: {
+          id: profile.id_usuario,
+          username: profile.correo,
+          name: profile.nombre,
+          role: profile.rol.nombre
+        }
+      });
+      setLogoutNotice("");
+      return { success: true };
+    } catch (error) {
       return {
         success: false,
-        message: "Usuario o contraseña incorrectos."
+        message: error instanceof Error
+          ? error.message
+          : "No fue posible iniciar sesión."
       };
     }
-
-    setUser({
-      username: foundUser.username,
-      name: foundUser.name,
-      role: foundUser.role
-    });
-
-    return { success: true };
   };
 
-  const handleLogout = () => {
-    setUser(null);
+  const handleLogout = async () => {
+    if (!session) return;
+
+    const activeSession = session;
+    setSession(null);
+    setLogoutNotice("");
+
+    try {
+      await logout(activeSession.accessToken, activeSession.refreshToken);
+    } catch (error) {
+      const reason = error instanceof Error ? `: ${error.message}` : ".";
+      setLogoutNotice(
+        `La sesión local se cerró, pero el backend no confirmó el cierre${reason}`
+      );
+    }
   };
 
   return (
     <div className="app-container">
-      {user ? (
+      {session ? (
         <HomePage
-          user={user}
+          user={session.user}
           onLogout={handleLogout}
+          accessToken={session.accessToken}
         />
       ) : (
-        <LoginPage onLogin={handleLogin} />
+        <LoginPage onLogin={handleLogin} notice={logoutNotice} />
       )}
     </div>
   );

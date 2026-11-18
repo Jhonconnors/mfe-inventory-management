@@ -10,10 +10,17 @@ import "./Topbar.css";
 const moduleTitles = {
   inicio: "Inicio",
   activos: "Activos tecnológicos",
+  ubicaciones: "Ubicaciones",
   asignaciones: "Asignaciones de equipos",
   traslados: "Traslados de activos",
   auditoria: "Bitácora de auditoría",
   usuarios: "Usuarios y roles"
+};
+
+const roleLabels = {
+  ADMINISTRADOR: "Administrador",
+  ENCARGADO_INVENTARIO: "Encargado de inventario",
+  CONSULTA: "Consulta"
 };
 
 const Topbar = ({ activeModule, user }) => {
@@ -37,9 +44,7 @@ const Topbar = ({ activeModule, user }) => {
 
           <div className="topbar-user-info">
             <strong>{user.username}</strong>
-            <span>
-              {user.role === "admin" ? "Administrador" : "Consulta"}
-            </span>
+            <span>{roleLabels[user.role] || user.role}</span>
           </div>
 
           <KeyboardArrowDown />
